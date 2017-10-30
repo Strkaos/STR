@@ -1,0 +1,103 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Collections;
+
+namespace Çekiliş_Programı_V1
+{
+    public partial class FRM_LoL_Cekiliş_Programı : Form
+    {
+        public FRM_LoL_Cekiliş_Programı()
+        {
+            InitializeComponent();
+        }
+        ArrayList Adayların_Adları = new ArrayList();
+        Random Rastgele_Sayı_Tanımı = new Random();
+        int Rasgele_Sayı;
+        int Default_Aday_Sayısı;
+        DialogResult CE;
+        private void SB_Aday_Ekleme_Click(object sender, EventArgs e)
+        {
+            if (TE_Aday_Ekleme.Text=="")
+            {
+                MessageBox.Show("Lütfen Alanı Boş Geçmeyiniz.");
+            }
+            else
+            {
+                Adayların_Adları.Add(TE_Aday_Ekleme.Text);
+                LB_Ekli_Adaylar_Listesi.Items.Add(TE_Aday_Ekleme.Text);
+                GB_Ekli_Adayların_Listesi.Text = "Ekli Adayların Listesi" + "  (" + Adayların_Adları.Count + " Kişi Ekli) ";
+            }
+            Default_Aday_Sayısı = Adayların_Adları.Count;
+        }
+
+        private void SB_TE_Aday_Ekleme_Sil_Click(object sender, EventArgs e)
+        {
+            TE_Aday_Ekleme.Text = "";
+        }
+        
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
+            Adayların_Adları.Add("Duran");
+            Adayların_Adları.Add("Ensar");
+            Adayların_Adları.Add("Hamza");
+            Adayların_Adları.Add("Mikail");
+            Adayların_Adları.Add("Sezer k");
+            Adayların_Adları.Add("Sezer b");
+            Adayların_Adları.Add("Berkay");
+            Adayların_Adları.Add("Sertan");
+            Adayların_Adları.Add("Strkaos");
+            Adayların_Adları.Add("Duran Özel");
+            for (int i = 0; i < Adayların_Adları.Count; i++)
+            {
+                LB_Ekli_Adaylar_Listesi.Items.Add(Adayların_Adları[i]);
+                GB_Ekli_Adayların_Listesi.Text = "Ekli Adayların Listesi" + "  (" + Adayların_Adları.Count + " Kişi Ekli) ";
+            }
+            Default_Aday_Sayısı = Adayların_Adları.Count;
+        }
+
+        private void SB_Kura_Cek_Click(object sender, EventArgs e)
+        {
+            CE = MessageBox.Show("Kurayı Çekmek İstiyor Musunuz ?","Uyarı",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+            if (CE==DialogResult.Yes)
+            {
+                for (int i = 0; i < Default_Aday_Sayısı; i++)
+                {
+                    if (i < (Default_Aday_Sayısı) / 2)
+                    {
+                        Rasgele_Sayı = Rastgele_Sayı_Tanımı.Next(0, Adayların_Adları.Count);
+                        LB_Kişi1.Text += "\n" + Adayların_Adları[Rasgele_Sayı].ToString() + "   => ";
+                        Adayların_Adları.Remove(Adayların_Adları[Rasgele_Sayı]);
+                    }
+                    else
+                    {
+                        Rasgele_Sayı = Rastgele_Sayı_Tanımı.Next(0, Adayların_Adları.Count);
+                        LB_Kişi2.Text += "\n" + Adayların_Adları[Rasgele_Sayı].ToString();
+                        Adayların_Adları.Remove(Adayların_Adları[Rasgele_Sayı]);
+                    }
+                }
+            }
+            else
+            {
+
+            }
+            
+        }
+
+        private void SB_Hakkında_Click(object sender, EventArgs e)
+        {
+            CE = MessageBox.Show("  Bu Program Strkaos Tarafından Yazılmıştır.","Hakkında",MessageBoxButtons.OK,MessageBoxIcon.Information);
+        }
+
+        private void SB_Nasıl_Kullanılır_Click(object sender, EventArgs e)
+        {
+            CE = MessageBox.Show("Program İki Aşamdan Oluşmaktadır; \n\n1. Aşama; Turnuvaya Katılacak Olan Kişileri,'Aday Ekleme' Sekmesinden Eklemekdir. Bunun İçin Ekleyeceğiniz Kişinin Adını Metin Kutusuna Giriniz. Ardından Eklemek İçin '+' Butonuna Basınız. Eğer Metin Kutusunu Hızlıca Temizlemek İsterseniz 'x' Butonuna Tıklayabilrsiniz. \n\n 2. Aşama; '1v1' Çekişi Alanından Kura Çek Butonuna Basmaktır.","Nasıl Kullanılır",MessageBoxButtons.OK,MessageBoxIcon.Question);
+        }
+    }
+}
